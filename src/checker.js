@@ -35,14 +35,16 @@ module.exports = {
                 if(data[i].connection.type === 'ATC') {
                     //console.log(data[i]);
                     const callsign = data[i].callsign;
-                    const frequency = data[i].frequency;
-                    const name = data[i].member.name;
-                    const icao = callsign.split('_')[0];
-                    lastCheckedControllers[callsign] = callsign;
-                    if(icao.substring(0,2) === this.icaoPrefix && !callsign.includes('ATIS')) {
-                        if(this.controllers[callsign] === undefined) {
-                            this.controllers[callsign] = callsign;
-                            this.report(report, channels, callsign, name, frequency, 'online');
+                    if(!callsign.includes('_OBS')) {
+                        const frequency = data[i].frequency;
+                        const name = data[i].member.name;
+                        const icao = callsign.split('_')[0];
+                        lastCheckedControllers[callsign] = callsign;
+                        if(icao.substring(0,2) === this.icaoPrefix && !callsign.includes('ATIS')) {
+                            if(this.controllers[callsign] === undefined) {
+                                this.controllers[callsign] = callsign;
+                                this.report(report, channels, callsign, name, frequency, 'online');
+                            }
                         }
                     }
                 }
