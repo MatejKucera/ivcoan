@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+
+  node:
+    restart: always
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      target: node-env
+    entrypoint: node src/index.js
+    volumes:
+      - $DATA_PATH:/ivcoandata
+    
