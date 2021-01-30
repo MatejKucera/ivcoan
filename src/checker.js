@@ -11,7 +11,8 @@ module.exports = {
     startChecker(bot) {
         this.icaoPrefix = process.env.FIR;
         this.bot = bot;
-        this.check(process.env.REPORT_ON_START);
+        let report = process.env.REPORT_ON_START === 'true' ? true : false;
+        this.check(report);
         setInterval(() => this.check(), process.env.INTERVAL * 1000);
     },
     check(report = true) {
@@ -60,37 +61,6 @@ module.exports = {
                 }
             }
         }).catch(console.error);
-
-        /*const handler = new DataHandler();
-        handler.getControllers().then(data => {
-            let lastCheckedControllers = [];
-
-            //console.log('Checking onlines started');
-            for (var i = 0; i < data.length; i++) {
-                const callsign = data[i].callsign;
-                const frequency = data[i].frequency;
-                const name = data[i].realname;
-                const icao = callsign.split('_')[0];
-                lastCheckedControllers[callsign] = callsign;
-                if(icao.substring(0,2) === this.icaoPrefix && !callsign.includes('ATIS')) {
-                    if(this.controllers[callsign] === undefined) {
-                        this.controllers[callsign] = callsign;
-                        this.report(report, channels, callsign, name, frequency, 'online');
-                    }
-                }
-            }
-
-            //console.log('Checking offlines started');
-            for (const [key, value] of Object.entries(this.controllers)) {
-                const callsign = key;
-                //console.log("Checking for "+callsign+ ' - ' + lastCheckedControllers[callsign]);
-                if(lastCheckedControllers[callsign] === undefined) {
-                    delete this.controllers[callsign];
-                    this.report(true, channels, callsign, null, null, 'offline');
-                }
-            }
-        });*/
-
 
     },
     activeChannels() {
